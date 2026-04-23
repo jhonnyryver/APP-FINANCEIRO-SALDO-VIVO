@@ -71,14 +71,16 @@
         .skill.unlocked { opacity: 1; filter: grayscale(0); border-color: var(--sys-gold); color: var(--sys-gold); animation: skill-pulse 2s infinite ease-in-out; background: rgba(251, 191, 36, 0.05); }
         @keyframes skill-pulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 5px rgba(251, 191, 36, 0.3); } 50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(251, 191, 36, 0.6); } }
 
-        /* CHAT & CALCULATOR - OTIMIZADOS PARA TECLADO */
-        #chat.active { display: flex; flex-direction: column; padding-bottom: 0; }
-        .chat-wrap { flex: 1; overflow-y: auto; padding-bottom: 110px; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
+        /* --- ESTRUTURA DO CHAT REFEITA PARA O TECLADO MOBILE --- */
+        #chat.active { display: flex !important; flex-direction: column; padding: 15px 15px 0 15px !important; overflow: hidden; }
+        .chat-wrap { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; padding-bottom: 15px; }
+        
         .msg { max-width: 85%; padding: 15px; font-size: 0.9rem; line-height: 1.4; border-radius: 2px; }
         .msg.bot { background: rgba(14, 165, 233, 0.05); border: 1px solid var(--sys-blue); border-left-width: 4px; color: #cbd5e1; }
         .msg.me { background: #1e293b; align-self: flex-end; border-right: 4px solid var(--sub); color: #fff; }
 
-        .input-container { position: absolute; bottom: 100px; left: 15px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 150; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        /* NOVO INPUT BOX - FLUXO RELATIVO */
+        .input-container { position: relative; bottom: 0; left: 0; right: 0; display: flex; flex-direction: column; gap: 10px; z-index: 150; margin-bottom: 100px; transition: margin-bottom 0.2s ease-out; }
         
         .calc-box { background: var(--sys-card); border: 1px solid var(--sys-blue); border-radius: 4px; padding: 10px; display: none; grid-template-columns: repeat(4, 1fr); gap: 5px; box-shadow: 0 -10px 20px rgba(0,0,0,0.5); }
         .calc-btn { background: #1e293b; border: none; color: white; padding: 15px 5px; border-radius: 2px; font-weight: bold; cursor: pointer; font-size: 1rem; }
@@ -308,27 +310,28 @@
         window.addEventListener('beforeunload', save);
         document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') save(); });
 
-        // --- SOLUÇÃO DO TECLADO NO CELULAR ---
+        // --- SOLUÇÃO DE ENGENHARIA PARA O TECLADO MOBILE ---
         function tecladoAtivo() {
-            // Oculta a barra de navegação para ganhar espaço
-            document.getElementById('nav-menu').style.transform = 'translateY(100px)';
-            document.getElementById('nav-menu').style.opacity = '0';
-            // Desce a caixa de texto para ela ficar colada no teclado e não no topo
-            document.getElementById('input-box').style.bottom = '10px';
+            // Esconde a barra de navegação para evitar cliques fantasmas e liberar espaço
+            document.getElementById('nav-menu').style.display = 'none';
+            // Zera a margem para o input colar no topo do teclado perfeitamente
+            document.getElementById('input-box').style.marginBottom = '15px';
+            
+            // Força a tela a mostrar a última mensagem enviada ou o input
             setTimeout(() => {
                 const c = document.getElementById('chat-ui');
                 c.scrollTop = c.scrollHeight;
-            }, 200);
+                document.getElementById('input-ui').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 150);
         }
 
         function tecladoInativo() {
-            // Volta a barra de navegação ao normal
-            document.getElementById('nav-menu').style.transform = 'translateY(0)';
-            document.getElementById('nav-menu').style.opacity = '1';
-            // Volta a caixa de texto para cima do menu
-            document.getElementById('input-box').style.bottom = '100px';
+            // Quando o teclado desce, a barra de navegação volta ao normal
+            document.getElementById('nav-menu').style.display = 'flex';
+            document.getElementById('input-box').style.marginBottom = '100px';
         }
 
+        // --- SISTEMA DE MODAIS ---
         let promptCallback = null;
         
         function openPrompt(title, placeholders, callback, isConfirm = false, msg = "") {
@@ -447,6 +450,7 @@
 
         function closeModal() { document.getElementById('sys-modal').style.display = 'none'; }
 
+        // --- SISTEMAS INTERNOS (AUDIO, FOTO, VOZ) ---
         function wakeAudio() { document.querySelectorAll('audio').forEach(a => { a.play().then(() => a.pause()).catch(()=>{}); }); }
         function tocarSom(id) {
             let audio = document.getElementById(id);
@@ -678,6 +682,20 @@
             atualizarTudo(); 
         }
 
+        function showCond(id) {
+            document.getElementById('sys-modal').style.display = 'block';
+            document.querySelector('#sys-modal div:nth-child(2)').innerText = "AVISO DO ARQUITETO";
+            const desc = document.getElementById('modal-desc');
+            
+            if(id==1) desc.innerHTML = "<b>MÃO DE FERRO</b><br>Requer Streak de 5 dias.<br>Atual: " + db.streak + "/5";
+            if(id==2) desc.innerHTML = "<b>AUTORIDADE</b><br>Requer Nível 10.<br>Atual: LVL " + db.lvl;
+            if(id==3) desc.innerHTML = "<b>SOMBRA DO LUCRO</b><br>Requer R$ 10.000,00 de Saldo Livre.";
+            
+            const btn = document.getElementById('sys-modal-btn');
+            btn.innerText = "CONFIRMAR";
+            btn.onclick = closeModal;
+        }
+        
         function toggleTheme() { document.body.classList.toggle('theme-pro'); db.profile.theme = document.body.classList.contains('theme-pro') ? 'pro' : 'hunter'; save(); }
         function exportarWA() { const msg = `⚔️ *SISTEMA SALDOVIVO: REPORT*\n\nHunter: *${db.profile.name}*\n👑 Título: *${document.getElementById('rank-ui').innerText}*\n💰 Saldo Livre: ${document.getElementById('balance-ui').innerText}\n👾 Boss: ${db.boss.nome} (${document.getElementById('hp-pct-ui').innerText})\n🔥 Streak: ${db.streak} dias\n\n[DADOS PROTEGIDOS]`; window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`); }
 
@@ -685,7 +703,6 @@
         function addMsg(t, s) { const c = document.getElementById('chat-ui'); const d = document.createElement('div'); d.className = `msg ${s}`; d.innerText = t; c.appendChild(d); c.scrollTop = c.scrollHeight; }
         function navegar(id, btn) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active')); document.getElementById(id).classList.add('active'); if(btn) btn.classList.add('active'); if(id==='chat' && document.getElementById('chat-ui').children.length===0) { const m = `[O ARQUITETO] O Sistema aguarda, ${db.profile.name}.`; addMsg(m,'bot'); falar(m); } }
         
-        // --- MOTOR DE VOZ (COM BLOQUEIO SEGURO PARA APK) ---
         function ouvirVoz() { 
             if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
                 alertCustom("FALHA DE COMUNICAÇÃO", "O motor de voz não funciona nativamente em APKs simples. Use via Navegador Google Chrome para utilizar o microfone.");
@@ -694,19 +711,33 @@
             try {
                 const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)(); 
                 rec.lang = 'pt-BR'; 
-                rec.onstart = () => alertCustom("SISTEMA OUVINDO", "Pode falar seu relato...");
+                
+                rec.onstart = () => {
+                    document.getElementById('sys-modal').style.display = 'block';
+                    document.querySelector('#sys-modal div:nth-child(2)').innerText = "MODO DE ESCUTA ATIVO";
+                    document.getElementById('modal-desc').innerHTML = "<div style='text-align:center; padding:10px;'><i class='ph-fill ph-microphone' style='font-size:40px; color:var(--sys-blue); animation: pulse-glow 1.5s infinite;'></i><br><br><b style='color:#fff'>Fale agora, Hunter...</b></div>";
+                    const btn = document.getElementById('sys-modal-btn');
+                    btn.innerText = "CANCELAR ESCUTA";
+                    btn.onclick = () => { rec.stop(); closeModal(); };
+                };
+                
                 rec.onresult = (e) => { 
                     document.getElementById('input-ui').value = e.results[0][0].transcript; 
                     closeModal();
                     enviarMensagem(); 
                 }; 
+                
                 rec.onerror = (e) => {
                     closeModal();
-                    alertCustom("ERRO", "Falha de escuta do sistema.");
-                }
+                    if (e.error === 'not-allowed') {
+                        alertCustom("PERMISSÃO NEGADA", "O Android bloqueou o microfone deste app. Permita nas configurações do celular ou abra direto no Chrome.");
+                    } else {
+                        alertCustom("BLOQUEIO DO SISTEMA", `Erro no motor de voz (${e.error}).`);
+                    }
+                };
                 rec.start(); 
             } catch (e) {
-                alertCustom("ERRO DE PERMISSÃO", "Microfone bloqueado pelas configurações do celular.");
+                alertCustom("ERRO CRÍTICO", "Falha ao iniciar o módulo de voz.");
             }
         }
 
