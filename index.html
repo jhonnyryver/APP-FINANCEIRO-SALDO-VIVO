@@ -28,7 +28,7 @@
 
         /* XP BAR */
         .xp-cont { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #000; z-index: 1000; }
-        .xp-fill { height: 100%; background: var(--sys-blue); width: 0%; box-shadow: 0 0 15px var(--sys-blue); transition: 1.2s; }
+        .xp-fill { height: 100%; background: var(--sys-blue); width: 0%; box-shadow: 0 0 15px var(--sys-blue); transition: 0.5s; }
 
         /* HEADER & PROFILE */
         header { padding: 30px 20px 15px; border-bottom: 1px solid rgba(14, 165, 233, 0.2); background: rgba(2, 6, 23, 0.6); backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center; z-index: 100;}
@@ -57,7 +57,7 @@
         /* BOSS CARD */
         .boss-card { background: linear-gradient(180deg, rgba(239, 68, 68, 0.15) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1px solid var(--sys-red); border-radius: 4px; padding: 15px; margin-bottom: 20px; position: relative; }
         .hp-bg { height: 10px; background: #000; border-radius: 2px; overflow: hidden; border: 1px solid #450a0a; margin: 8px 0; }
-        .hp-fill { height: 100%; background: linear-gradient(90deg, #7f1d1d, #ef4444); width: 100%; transition: 1s; }
+        .hp-fill { height: 100%; background: linear-gradient(90deg, #7f1d1d, #ef4444); width: 100%; transition: 0.5s; }
 
         /* WINDOWS & ITEMS */
         .window { background: rgba(15, 23, 42, 0.8); border: 1px solid var(--sys-blue); padding: 18px; border-radius: 2px; margin-bottom: 15px; }
@@ -67,7 +67,7 @@
 
         /* SKILLS */
         .skill-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .skill { background: #1e293b; padding: 15px; border-radius: 4px; text-align: center; border: 1px solid #334155; opacity: 0.2; filter: grayscale(1); transition: 0.5s; cursor: pointer; color: #fff; font-size: 24px; }
+        .skill { background: #1e293b; padding: 15px; border-radius: 4px; text-align: center; border: 1px solid #334155; opacity: 0.2; filter: grayscale(1); transition: 0.3s; cursor: pointer; color: #fff; font-size: 24px; }
         .skill.unlocked { opacity: 1; filter: grayscale(0); border-color: var(--sys-gold); color: var(--sys-gold); animation: skill-pulse 2s infinite ease-in-out; background: rgba(251, 191, 36, 0.05); }
         @keyframes skill-pulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 5px rgba(251, 191, 36, 0.3); } 50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(251, 191, 36, 0.6); } }
 
@@ -87,10 +87,17 @@
         .action-btn { background: var(--sys-blue); color: white; width: 44px; height: 44px; border: none; border-radius: 2px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
 
         /* MODAIS */
-        #sys-modal, #dungeon-modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; background: rgba(2, 6, 23, 0.98); border: 2px solid var(--sys-blue); padding: 20px; z-index: 2000; display: none; box-shadow: 0 0 50px rgba(0,0,0,1); border-radius: 4px; }
+        #sys-modal, #dungeon-modal, #custom-prompt-modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; background: rgba(2, 6, 23, 0.98); border: 2px solid var(--sys-blue); padding: 20px; z-index: 2000; display: none; box-shadow: 0 0 50px rgba(0,0,0,1); border-radius: 4px; }
         .close-btn { position: absolute; top: 10px; right: 10px; color: var(--sub); font-size: 24px; cursor: pointer; z-index: 2001;}
+        .close-btn:hover { color: var(--sys-red); }
+        
+        /* CUSTOM PROMPT STYLES */
+        .cp-input { width: 100%; padding: 12px; margin-bottom: 12px; background: #0f172a; border: 1px solid var(--sys-blue); color: white; border-radius: 2px; outline: none; font-size: 1rem; }
+        .cp-input::placeholder { color: var(--sub); }
+        .cp-btn-row { display: flex; gap: 10px; margin-top: 10px; }
+        .cp-btn { flex: 1; padding: 12px; font-weight: 900; border: none; border-radius: 2px; cursor: pointer; text-transform: uppercase; }
 
-        /* SNAKE DUNGEON */
+        /* SNA DUNGEON */
         .game-container { width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 10px; }
         #snake-canvas { background: #000; border: 1px solid var(--sys-blue); width: 280px; height: 280px; }
         .d-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
@@ -106,9 +113,35 @@
         .plus-btn { background: var(--sys-blue); width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transform: translateY(-25px); color: white; font-size: 1.6rem; box-shadow: 0 0 25px rgba(14, 165, 233, 0.4); }
 
         ::-webkit-scrollbar { width: 0; }
+
+        /* TELA DE LOADING */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: var(--sys-bg); z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.5s ease-out, visibility 0.5s;
+        }
+        .splash-content { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px;}
+        .splash-logo { width: 160px; height: 160px; border-radius: 24px; box-shadow: 0 0 30px rgba(14, 165, 233, 0.4); animation: pulse-glow 2s infinite ease-in-out; object-fit: cover;}
+        .splash-title { color: var(--sys-blue); font-weight: 900; font-size: 1.2rem; letter-spacing: 4px; text-shadow: 0 0 15px var(--sys-blue); }
+        .splash-loading-bar { width: 220px; height: 4px; background: #1e293b; border-radius: 2px; overflow: hidden; margin-top: 10px;}
+        .splash-loading-fill { width: 0%; height: 100%; background: var(--sys-blue); box-shadow: 0 0 10px var(--sys-blue); transition: width 1.5s cubic-bezier(0.1, 0.7, 0.1, 1); }
+        .splash-text { font-size: 0.7rem; color: var(--sub); text-transform: uppercase; letter-spacing: 2px; animation: blink 1s infinite; }
+        
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        @keyframes pulse-glow { 0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(14, 165, 233, 0.3); } 50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(14, 165, 233, 0.8); } }
     </style>
 </head>
 <body onclick="wakeAudio()">
+
+    <div id="splash-screen">
+        <div class="splash-content">
+            <img src="icone.jpg" alt="Logo" class="splash-logo" onerror="this.style.display='none'">
+            <div class="splash-title">O SISTEMA</div>
+            <div class="splash-loading-bar"><div class="splash-loading-fill" id="splash-fill"></div></div>
+            <div class="splash-text">Conectando...</div>
+        </div>
+    </div>
 
     <input type="file" id="photo-upload" accept="image/*" style="display: none;" onchange="handlePhotoUpload(event)">
 
@@ -118,10 +151,24 @@
 
     <div class="xp-cont"><div class="xp-fill" id="xp-fill"></div></div>
 
+    <div id="custom-prompt-modal">
+        <div id="cp-title" style="font-size: 0.8rem; color: var(--sys-blue); font-weight: 900; border-bottom: 1px solid var(--sys-blue); padding-bottom: 10px; margin-bottom: 15px; text-transform: uppercase;">AÇÃO DO SISTEMA</div>
+        <div id="cp-msg" style="color: #fff; font-size: 0.9rem; margin-bottom: 15px; display: none;"></div>
+        
+        <input type="text" id="cp-input-1" class="cp-input" autocomplete="off" autocorrect="off" spellcheck="false">
+        <input type="number" id="cp-input-2" class="cp-input" style="display: none;" autocomplete="off">
+        
+        <div class="cp-btn-row">
+            <button onclick="cpCancel()" class="cp-btn" style="background: #1e293b; color: white;">Cancelar</button>
+            <button onclick="cpConfirm()" class="cp-btn" style="background: var(--sys-blue); color: white;">Confirmar</button>
+        </div>
+    </div>
+
     <div id="sys-modal">
-        <div style="font-size: 0.7rem; color: var(--sys-blue); font-weight: 900; border-bottom: 1px solid var(--sys-blue); padding-bottom: 10px; margin-bottom: 15px;">AVISO DO ARQUITETO</div>
+        <i class="ph ph-x-circle close-btn" onclick="closeModal()"></i>
+        <div style="font-size: 0.7rem; color: var(--sys-blue); font-weight: 900; border-bottom: 1px solid var(--sys-blue); padding-bottom: 10px; margin-bottom: 15px; width: 90%;">AVISO DO ARQUITETO</div>
         <div id="modal-desc" style="font-size: 0.9rem; line-height: 1.5; color: #fff; margin-bottom: 20px;"></div>
-        <button onclick="closeModal()" style="width: 100%; padding: 12px; background: var(--sys-blue); color: #fff; border: none; font-weight: 900; cursor: pointer;">CONFIRMAR</button>
+        <button id="sys-modal-btn" onclick="closeModal()" style="width: 100%; padding: 12px; background: var(--sys-blue); color: #fff; border: none; font-weight: 900; cursor: pointer; border-radius: 2px;">CONFIRMAR</button>
     </div>
 
     <div id="dungeon-modal">
@@ -219,7 +266,7 @@
                 <div class="input-bar">
                     <i class="ph ph-calculator" style="color:var(--sys-blue); cursor:pointer; font-size:24px;" onclick="toggleCalc()"></i>
                     <i class="ph ph-microphone" style="color:var(--sys-blue); cursor:pointer; font-size:24px;" onclick="ouvirVoz()"></i>
-                    <input type="text" id="input-ui" placeholder="Relatar ao Sistema...">
+                    <input type="text" id="input-ui" placeholder="Relatar ao Sistema..." autocomplete="off" autocorrect="off" spellcheck="false" data-lpignore="true">
                     <button class="action-btn" onclick="enviarMensagem()"><i class="ph-fill ph-paper-plane-right"></i></button>
                 </div>
             </div>
@@ -250,8 +297,8 @@
     </div>
 
     <script>
-        // --- NOVA CHAVE DE BANCO DE DADOS PARA RESET TOTAL ---
-        let db = JSON.parse(localStorage.getItem('sv_app_release_v1')) || {
+        // CHAVE DE BANCO DE DADOS NOVA PARA ZERAR O APP
+        let db = JSON.parse(localStorage.getItem('sv_app_speed_v1')) || {
             lvl: 1, xp: 0, streak: 1, last: '', voice: true,
             trans: [], items: [], shadows: [],
             boss: { nome: 'PRIMEIRA DÍVIDA', total: 1000 },
@@ -260,46 +307,140 @@
 
         if(db.profile.theme === 'pro') document.body.classList.add('theme-pro');
 
-        // --- SISTEMAS DE SALVAMENTO BLINDADO ---
-        function save() { localStorage.setItem('sv_app_release_v1', JSON.stringify(db)); }
-        
+        function save() { localStorage.setItem('sv_app_speed_v1', JSON.stringify(db)); }
         window.addEventListener('beforeunload', save);
         document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') save(); });
 
-        // --- BACKUP MANUAL ---
-        function gerarBackupLocal() {
-            save(); 
-            const dataStr = btoa(encodeURIComponent(JSON.stringify(db)));
-            prompt("Este é o seu código de Backup. Copie-o (Ctrl+C) e guarde em local seguro:", dataStr);
+        // --- SISTEMA DE MODAL CUSTOMIZADO ---
+        let promptCallback = null;
+        
+        function openPrompt(title, placeholders, callback, isConfirm = false, msg = "") {
+            document.getElementById('cp-title').innerText = title;
+            const msgEl = document.getElementById('cp-msg');
+            const i1 = document.getElementById('cp-input-1');
+            const i2 = document.getElementById('cp-input-2');
+
+            if(msg) { msgEl.innerHTML = msg; msgEl.style.display = 'block'; } else { msgEl.style.display = 'none'; }
+
+            if(isConfirm) {
+                i1.style.display = 'none'; i2.style.display = 'none';
+            } else {
+                i1.style.display = 'block'; i1.placeholder = placeholders[0]; i1.value = '';
+                if(placeholders.length > 1) {
+                    i2.style.display = 'block'; i2.placeholder = placeholders[1]; i2.value = '';
+                } else { i2.style.display = 'none'; }
+            }
+
+            promptCallback = callback;
+            document.getElementById('custom-prompt-modal').style.display = 'block';
+            if(!isConfirm) i1.focus();
         }
 
-        function restaurarBackupLocal() {
-            const dataStr = prompt("Cole o seu código de backup aqui para restaurar seu progresso:");
-            if (dataStr) {
-                try {
-                    const parsed = JSON.parse(decodeURIComponent(atob(dataStr)));
-                    if(parsed && parsed.lvl) {
-                        db = parsed;
-                        save();
-                        alert("Sistema restaurado com sucesso!");
-                        location.reload();
-                    } else {
-                        alert("Código inválido. Formato não reconhecido.");
-                    }
-                } catch(e) {
-                    alert("Erro crítico: O código fornecido está corrompido ou incompleto.");
-                }
+        function cpConfirm() {
+            document.getElementById('custom-prompt-modal').style.display = 'none';
+            if(document.getElementById('cp-input-1').style.display === 'none') {
+                if(promptCallback) promptCallback(true);
+            } else {
+                const v1 = document.getElementById('cp-input-1').value.trim();
+                const v2 = document.getElementById('cp-input-2').value.trim();
+                if(promptCallback) promptCallback([v1, v2]);
             }
         }
 
-        // --- MOTOR DE AUDIO ---
+        function cpCancel() {
+            document.getElementById('custom-prompt-modal').style.display = 'none';
+            if(document.getElementById('cp-input-1').style.display === 'none') {
+                if(promptCallback) promptCallback(false);
+            }
+            promptCallback = null;
+        }
+
+        function configPerfil() {
+            openPrompt("ALTERAR IDENTIDADE", ["Novo Nome Hunter:"], (res) => {
+                if(res[0]) { db.profile.name = res[0].toUpperCase(); atualizarTudo(); }
+            });
+        }
+
+        function configBoss() {
+            openPrompt("NOVO ALVO (BOSS)", ["Nome da Dívida/Meta:", "Valor Total (R$):"], (res) => {
+                let v = parseFloat(res[1].replace(',','.'));
+                if(res[0] && !isNaN(v)) { db.boss = {nome: res[0].toUpperCase(), total: v}; atualizarTudo(); }
+            });
+        }
+
+        function addItem() {
+            openPrompt("REGISTRAR ARTEFATO", ["Nome do Bem/Patrimônio:", "Valor (R$):"], (res) => {
+                let v = parseFloat(res[1].replace(',','.'));
+                if(res[0] && !isNaN(v)) { db.items.push({nome: res[0], val: v}); atualizarTudo(); }
+            });
+        }
+
+        function addShadow() {
+            openPrompt("REGISTRAR SOMBRA", ["Gasto Fixo (Ex: Aluguel):", "Valor (R$):"], (res) => {
+                let v = parseFloat(res[1].replace(',','.'));
+                if(res[0] && !isNaN(v)) { db.shadows.push({nome: res[0], val: v}); atualizarTudo(); }
+            });
+        }
+
+        function restaurarBackupLocal() {
+            openPrompt("RESTAURAR SISTEMA", ["Cole o Código de Backup Aqui:"], (res) => {
+                if (res[0]) {
+                    try {
+                        const parsed = JSON.parse(decodeURIComponent(atob(res[0])));
+                        if(parsed && parsed.lvl) {
+                            db = parsed; save();
+                            alertCustom("SUCESSO", "Sistema restaurado. A página será recarregada.");
+                            setTimeout(()=>location.reload(), 1500);
+                        } else alertCustom("ERRO", "Código inválido ou incompatível.");
+                    } catch(e) { alertCustom("ERRO CRÍTICO", "O código fornecido está corrompido."); }
+                }
+            });
+        }
+
+        function resetAll() {
+            openPrompt("ALERTA DE DESTRUIÇÃO", [], (confirmado) => {
+                if(confirmado) { localStorage.clear(); location.reload(); }
+            }, true, "Tem certeza que deseja apagar todo o seu progresso? Essa ação é irreversível.");
+        }
+
+        function alertCustom(title, msg) {
+            document.getElementById('sys-modal').style.display = 'block';
+            document.querySelector('#sys-modal div:nth-child(2)').innerText = title;
+            document.getElementById('modal-desc').innerHTML = msg;
+            document.getElementById('sys-modal-btn').innerText = "CONFIRMAR";
+            document.getElementById('sys-modal-btn').onclick = closeModal;
+        }
+
+        // --- BACKUP MANUAL MELHORADO COM O NOVO BOTÃO DE FECHAR (X) ---
+        function gerarBackupLocal() {
+            save(); 
+            const dataStr = btoa(encodeURIComponent(JSON.stringify(db)));
+            document.getElementById('sys-modal').style.display = 'block';
+            document.querySelector('#sys-modal div:nth-child(2)').innerText = "CÓDIGO GERADO";
+            document.getElementById('modal-desc').innerHTML = `Copie o código abaixo e guarde seguro:<br><textarea id="bkp-text" style="width:100%; height:80px; background:#000; color:var(--sys-gold); border:1px solid var(--sys-gold); padding:5px; margin-top:10px; border-radius:2px; font-size:0.7rem;" readonly>${dataStr}</textarea>`;
+            
+            const btn = document.getElementById('sys-modal-btn');
+            btn.innerText = "COPIAR CÓDIGO";
+            btn.onclick = () => {
+                const txt = document.getElementById('bkp-text');
+                txt.select(); document.execCommand("copy");
+                document.getElementById('modal-desc').innerHTML = "<b style='color:var(--sys-blue)'>CÓDIGO COPIADO COM SUCESSO!</b>";
+                falar("Código copiado.");
+            };
+        }
+
+        function closeModal() { document.getElementById('sys-modal').style.display = 'none'; }
+
+        // MOTOR DE AUDIO OTIMIZADO
         function wakeAudio() { document.querySelectorAll('audio').forEach(a => { a.play().then(() => a.pause()).catch(()=>{}); }); }
         function tocarSom(id) {
             let audio = document.getElementById(id);
-            if(audio) { audio.currentTime = 0; audio.play().catch(e => console.warn("Áudio bloqueado pelo navegador.", e)); }
+            if(audio) { 
+                audio.currentTime = 0; 
+                audio.play().catch(e => console.warn("Áudio requer interação inicial.", e)); 
+            }
         }
 
-        // --- MÓDULO DE FOTO DO PERFIL ---
         function handlePhotoUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -323,7 +464,6 @@
             reader.readAsDataURL(file);
         }
 
-        // --- SISTEMA DE VOZ ---
         function falar(t) {
             if (!db.voice) return;
             window.speechSynthesis.cancel();
@@ -337,7 +477,6 @@
             falar(db.voice ? "Voz ativa." : ""); save();
         }
 
-        // --- CALCULADORA EMBUTIDA ---
         let calcVal = "";
         function toggleCalc() { const c = document.getElementById('calc-ui'); c.style.display = c.style.display === 'grid' ? 'none' : 'grid'; }
         function calcNum(n) { calcVal += n; document.getElementById('input-ui').value = calcVal; }
@@ -345,13 +484,9 @@
         function calcClear() { calcVal = ""; document.getElementById('input-ui').value = ""; }
         function calcRes() { try { calcVal = eval(calcVal).toString(); document.getElementById('input-ui').value = calcVal; } catch { calcVal = "Erro"; } }
 
-        // --- INVENTÁRIO E SOMBRAS ---
-        function addItem() { const n = prompt("Nome do Artefato/Bem:"); const v = parseFloat(prompt("Valor (R$):")); if(n&&v) { db.items.push({nome:n, val:v}); atualizarTudo(); } }
-        function addShadow() { const n = prompt("Gasto Fixo Mensal (Sombra):"); const v = parseFloat(prompt("Valor (R$):")); if(n&&v) { db.shadows.push({nome:n, val:v}); atualizarTudo(); } }
         function delI(i) { db.items.splice(i,1); atualizarTudo(); }
         function delS(i) { db.shadows.splice(i,1); atualizarTudo(); }
 
-        // --- SNAKE DUNGEON ENGINE ---
         const canvas = document.getElementById('snake-canvas');
         const ctx = canvas.getContext('2d');
         const box = 20;
@@ -422,26 +557,31 @@
         function gameOver() {
             clearInterval(gameInterval);
             let xpGained = score * 3; db.xp += xpGained;
-            tocarSom('snd-out'); falar("Raid falhou."); alert(`GAME OVER!\nXP: +${xpGained}`);
+            tocarSom('snd-out'); falar("Raid falhou."); 
+            alertCustom("GAME OVER", `Score: ${score}<br>XP Ganho: +${xpGained}`);
             document.getElementById('start-btn').style.display = 'block'; atualizarTudo();
         }
 
-        // --- SISTEMA CORE & RANKING SOCIAL ---
         function atualizarTudo() {
             let tin = 0; let tout = 0; let bossHits = 0;
-            document.getElementById('history-ui').innerHTML = '';
+            let historyHTML = '';
             
             db.trans.forEach((t, i) => {
                 if(t.tipo === 'in') tin += t.val; 
                 else { tout += t.val; if(t.desc.toLowerCase().includes('boss') || t.desc.toLowerCase().includes('paguei')) bossHits += t.val; }
-                if(i < 5) renderHistory(t);
+                
+                if(i < 5) {
+                    const d = new Date(t.date).toLocaleDateString('pt-BR', {day:'2-digit', month:'short'});
+                    historyHTML += `<div style="display:flex; justify-content:space-between; padding:12px; background:rgba(255,255,255,0.03); margin-bottom:8px; border-left:3px solid var(--sys-${t.tipo==='in'?'blue':'red'}); font-size:0.8rem;"><span>${d} • ${t.desc.substring(0,18)}</span> <b>${format(t.val)}</b></div>`;
+                }
             });
+
+            document.getElementById('history-ui').innerHTML = historyHTML;
 
             const saldo = tin - tout;
             const fixosTotal = db.shadows.reduce((a,b)=>a+b.val,0);
             const saldoLivre = saldo - fixosTotal;
             const patrimônio = db.items.reduce((a,b)=>a+b.val,0);
-            
             const cp = Math.floor(saldoLivre * 1.5) + patrimônio + (db.lvl * 350);
 
             document.getElementById('name-ui').innerText = db.profile.name;
@@ -454,7 +594,6 @@
 
             const rankUi = document.getElementById('rank-ui');
             let rText = ""; let rColor = "";
-            
             if (cp < 0) { rText = "RANK F: ENDIVIDADO"; rColor = "var(--sys-red)"; }
             else if (cp < 3000) { rText = "RANK E: POBRE"; rColor = "var(--sub)"; }
             else if (cp < 10000) { rText = "RANK D: CLASSE BAIXA"; rColor = "var(--sub)"; }
@@ -504,44 +643,57 @@
         function enviarMensagem() {
             const input = document.getElementById('input-ui'); let txt = input.value.trim(); if(!txt) return;
             addMsg(txt, 'me'); input.value = '';
-            setTimeout(() => {
-                let match = txt.replace('R$', '').replace('.', '').replace(',', '.').match(/\d+(\.\d+)?/);
-                if(!match) return addMsg("[SISTEMA: VALOR INVÁLIDO]", 'bot');
-                const val = parseFloat(match[0]);
-                const txtL = txt.toLowerCase(); const inK = ['pix', 'ganhei', 'recebi', 'salário', 'vendi', 'caiu'];
-                let tipo = inK.some(k => txtL.includes(k)) ? 'in' : 'out';
-                let isBoss = (txtL.includes('boss') || txtL.includes('paguei') || txtL.includes('dívida')) && tipo === 'out';
-                
-                db.trans.unshift({ val, tipo, desc: txt, isBoss, date: new Date().toISOString() });
-                db.xp += 100;
-                
-                let resp = "";
-                if(tipo === 'in') { tocarSom('snd-in'); resp = `+${format(val)} créditos.`; } 
-                else { tocarSom('snd-out'); resp = isBoss ? `Dano Crítico! -${format(val)} HP no Boss.` : `-${format(val)} consumidos.`; }
-                
-                calcVal = ""; addMsg(resp, 'bot'); falar(resp); atualizarTudo();
-            }, 600);
+            
+            let match = txt.replace('R$', '').replace('.', '').replace(',', '.').match(/\d+(\.\d+)?/);
+            if(!match) { addMsg("[SISTEMA: VALOR INVÁLIDO]", 'bot'); return; }
+            
+            const val = parseFloat(match[0]);
+            const txtL = txt.toLowerCase(); const inK = ['pix', 'ganhei', 'recebi', 'salário', 'vendi', 'caiu'];
+            let tipo = inK.some(k => txtL.includes(k)) ? 'in' : 'out';
+            let isBoss = (txtL.includes('boss') || txtL.includes('paguei') || txtL.includes('dívida')) && tipo === 'out';
+            
+            db.trans.unshift({ val, tipo, desc: txt, isBoss, date: new Date().toISOString() });
+            db.xp += 100;
+            
+            let resp = "";
+            if(tipo === 'in') { tocarSom('snd-in'); resp = `+${format(val)} créditos.`; } 
+            else { tocarSom('snd-out'); resp = isBoss ? `Dano Crítico! -${format(val)} HP no Boss.` : `-${format(val)} consumidos.`; }
+            
+            calcVal = ""; addMsg(resp, 'bot'); falar(resp); 
+            atualizarTudo(); 
         }
 
         function showCond(id) {
-            const modal = document.getElementById('sys-modal'); const desc = document.getElementById('modal-desc'); modal.style.display = 'block';
+            document.getElementById('sys-modal').style.display = 'block';
+            document.querySelector('#sys-modal div:nth-child(2)').innerText = "AVISO DO ARQUITETO";
+            const desc = document.getElementById('modal-desc');
+            
             if(id==1) desc.innerHTML = "<b>MÃO DE FERRO</b><br>Requer Streak de 5 dias.<br>Atual: " + db.streak + "/5";
             if(id==2) desc.innerHTML = "<b>AUTORIDADE</b><br>Requer Nível 10.<br>Atual: LVL " + db.lvl;
             if(id==3) desc.innerHTML = "<b>SOMBRA DO LUCRO</b><br>Requer R$ 10.000,00 de Saldo Livre.";
+            
+            const btn = document.getElementById('sys-modal-btn');
+            btn.innerText = "CONFIRMAR";
+            btn.onclick = closeModal;
         }
-        function closeModal() { document.getElementById('sys-modal').style.display = 'none'; }
         
-        function configPerfil() { const n = prompt("Nome Hunter:", db.profile.name); if(n) { db.profile.name = n; atualizarTudo(); } }
-        function configBoss() { const n = prompt("Nome do Boss:"); const v = parseFloat(prompt("HP Total (R$):")); if(n&&v) { db.boss = {nome: n.toUpperCase(), total: v}; atualizarTudo(); } }
         function toggleTheme() { document.body.classList.toggle('theme-pro'); db.profile.theme = document.body.classList.contains('theme-pro') ? 'pro' : 'hunter'; save(); }
         function exportarWA() { const msg = `⚔️ *SISTEMA SALDOVIVO: REPORT*\n\nHunter: *${db.profile.name}*\n👑 Título: *${document.getElementById('rank-ui').innerText}*\n💰 Saldo Livre: ${document.getElementById('balance-ui').innerText}\n👾 Boss: ${db.boss.nome} (${document.getElementById('hp-pct-ui').innerText})\n🔥 Streak: ${db.streak} dias\n\n[DADOS PROTEGIDOS]`; window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`); }
-        function resetAll() { if(confirm("REINICIAR SISTEMA? TODO O PROGRESSO SERÁ APAGADO.")) { localStorage.clear(); location.reload(); } }
 
         function format(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
         function addMsg(t, s) { const c = document.getElementById('chat-ui'); const d = document.createElement('div'); d.className = `msg ${s}`; d.innerText = t; c.appendChild(d); c.scrollTop = c.scrollHeight; }
         function navegar(id, btn) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active')); document.getElementById(id).classList.add('active'); if(btn) btn.classList.add('active'); if(id==='chat' && document.getElementById('chat-ui').children.length===0) { const m = `[O ARQUITETO] O Sistema aguarda, ${db.profile.name}.`; addMsg(m,'bot'); falar(m); } }
-        function renderHistory(t) { const d = new Date(t.date).toLocaleDateString('pt-BR', {day:'2-digit', month:'short'}); document.getElementById('history-ui').innerHTML += `<div style="display:flex; justify-content:space-between; padding:12px; background:rgba(255,255,255,0.03); margin-bottom:8px; border-left:3px solid var(--sys-${t.tipo==='in'?'blue':'red'}); font-size:0.8rem;"><span>${d} • ${t.desc.substring(0,18)}</span> <b>${format(t.val)}</b></div>`; }
+        
         function ouvirVoz() { const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)(); rec.lang = 'pt-BR'; rec.onresult = (e) => { document.getElementById('input-ui').value = e.results[0][0].transcript; enviarMensagem(); }; rec.start(); }
+
+        window.addEventListener('load', () => {
+            setTimeout(() => { document.getElementById('splash-fill').style.width = '100%'; }, 100);
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0'; splash.style.visibility = 'hidden';
+                falar("Sistema Online.");
+            }, 1800);
+        });
 
         const hj = new Date().toDateString();
         if(db.last !== hj) { let ont = new Date(); ont.setDate(ont.getDate()-1); if(db.last === ont.toDateString()) db.streak++; else if(db.last !== '') db.streak = 1; db.last = hj; db.xp += 300; save(); }
