@@ -24,14 +24,14 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
         body { background: var(--sys-bg); color: var(--text); display: flex; justify-content: center; height: 100dvh; overflow: hidden; transition: 0.3s; }
 
-        .app { width: 100%; max-width: 430px; height: 100%; display: flex; flex-direction: column; position: relative; border-right: 1px solid #1e293b; border-left: 1px solid #1e293b; background: radial-gradient(circle at top, var(--sys-card) 0%, var(--sys-bg) 100%); overflow: hidden; }
+        .app { width: 100%; max-width: 430px; height: 100dvh; display: flex; flex-direction: column; position: relative; border-right: 1px solid #1e293b; border-left: 1px solid #1e293b; background: radial-gradient(circle at top, var(--sys-card) 0%, var(--sys-bg) 100%); overflow: hidden; }
 
         /* XP BAR */
         .xp-cont { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #000; z-index: 1000; }
         .xp-fill { height: 100%; background: var(--sys-blue); width: 0%; box-shadow: 0 0 15px var(--sys-blue); transition: 0.5s; }
 
         /* HEADER & PROFILE */
-        header { padding: 30px 20px 15px; border-bottom: 1px solid rgba(14, 165, 233, 0.2); background: rgba(2, 6, 23, 0.6); backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center; z-index: 100; flex-shrink: 0;}
+        header { padding: 30px 20px 15px; border-bottom: 1px solid rgba(14, 165, 233, 0.2); background: rgba(2, 6, 23, 0.6); backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center; z-index: 100;}
         
         .hunter-profile { display: flex; align-items: center; gap: 12px; cursor: pointer; }
         .avatar { width: 50px; height: 50px; border-radius: 50%; background: #1e293b; border: 2px solid var(--sys-blue); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--sub); overflow: hidden; background-size: cover; background-position: center; box-shadow: 0 0 15px rgba(14, 165, 233, 0.3); transition: 0.3s;}
@@ -50,14 +50,16 @@
         @keyframes fire-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); box-shadow: 0 0 var(--fire-glow) rgba(239, 68, 68, 0.3); } }
 
         /* SCREENS */
-        .screen { flex: 1; padding: 15px 20px 100px; overflow-y: auto; display: none; position: relative; }
+        .screen { flex: 1; padding: 15px 20px 120px; overflow-y: auto; display: none; height: 100%; }
         .screen.active { display: block; animation: system-in 0.2s ease-out; }
         @keyframes system-in { from { opacity: 0; transform: scale(1.02); } to { opacity: 1; transform: scale(1); } }
 
-        /* BOSS CARD & WINDOWS */
+        /* BOSS CARD */
         .boss-card { background: linear-gradient(180deg, rgba(239, 68, 68, 0.15) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1px solid var(--sys-red); border-radius: 4px; padding: 15px; margin-bottom: 20px; position: relative; }
         .hp-bg { height: 10px; background: #000; border-radius: 2px; overflow: hidden; border: 1px solid #450a0a; margin: 8px 0; }
         .hp-fill { height: 100%; background: linear-gradient(90deg, #7f1d1d, #ef4444); width: 100%; transition: 0.5s; }
+
+        /* WINDOWS & ITEMS */
         .window { background: rgba(15, 23, 42, 0.8); border: 1px solid var(--sys-blue); padding: 18px; border-radius: 2px; margin-bottom: 15px; }
         .win-title { font-size: 0.7rem; color: var(--sys-blue); font-weight: 900; border-bottom: 1px solid rgba(14, 165, 233, 0.2); padding-bottom: 6px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center; }
         .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); margin-bottom: 8px; border-left: 3px solid var(--sys-blue); border-radius: 2px; }
@@ -69,17 +71,17 @@
         .skill.unlocked { opacity: 1; filter: grayscale(0); border-color: var(--sys-gold); color: var(--sys-gold); animation: skill-pulse 2s infinite ease-in-out; background: rgba(251, 191, 36, 0.05); }
         @keyframes skill-pulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 5px rgba(251, 191, 36, 0.3); } 50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(251, 191, 36, 0.6); } }
 
-        /* --- FÍSICA CORRIGIDA DO CHAT E TECLADO --- */
+        /* --- ESTRUTURA DO CHAT REFEITA PARA O TECLADO MOBILE --- */
         #chat.active { display: flex !important; flex-direction: column; padding: 15px 15px 0 15px !important; overflow: hidden; }
-        .chat-wrap { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; padding-bottom: 10px; }
-        
-        .input-container { position: relative; display: flex; flex-direction: column; gap: 10px; margin-top: auto; z-index: 150; padding-bottom: 85px; transition: 0.2s; }
-        .input-container.keyboard-open { padding-bottom: 10px; }
+        .chat-wrap { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; padding-bottom: 15px; }
         
         .msg { max-width: 85%; padding: 15px; font-size: 0.9rem; line-height: 1.4; border-radius: 2px; }
         .msg.bot { background: rgba(14, 165, 233, 0.05); border: 1px solid var(--sys-blue); border-left-width: 4px; color: #cbd5e1; }
         .msg.me { background: #1e293b; align-self: flex-end; border-right: 4px solid var(--sub); color: #fff; }
 
+        /* NOVO INPUT BOX - FLUXO RELATIVO */
+        .input-container { position: relative; bottom: 0; left: 0; right: 0; display: flex; flex-direction: column; gap: 10px; z-index: 150; margin-bottom: 100px; transition: margin-bottom 0.2s ease-out; }
+        
         .calc-box { background: var(--sys-card); border: 1px solid var(--sys-blue); border-radius: 4px; padding: 10px; display: none; grid-template-columns: repeat(4, 1fr); gap: 5px; box-shadow: 0 -10px 20px rgba(0,0,0,0.5); }
         .calc-btn { background: #1e293b; border: none; color: white; padding: 15px 5px; border-radius: 2px; font-weight: bold; cursor: pointer; font-size: 1rem; }
         .calc-btn.op { color: var(--sys-blue); }
@@ -93,6 +95,7 @@
         .close-btn { position: absolute; top: 10px; right: 10px; color: var(--sub); font-size: 24px; cursor: pointer; z-index: 2001;}
         .close-btn:hover { color: var(--sys-red); }
         
+        /* CUSTOM PROMPT STYLES */
         .cp-input { width: 100%; padding: 12px; margin-bottom: 12px; background: #0f172a; border: 1px solid var(--sys-blue); color: white; border-radius: 2px; outline: none; font-size: 1rem; }
         .cp-input::placeholder { color: var(--sub); }
         .cp-btn-row { display: flex; gap: 10px; margin-top: 10px; }
@@ -147,7 +150,6 @@
     <div class="xp-cont"><div class="xp-fill" id="xp-fill"></div></div>
 
     <div id="custom-prompt-modal">
-        <i class="ph ph-x-circle close-btn" onclick="cpCancel()"></i>
         <div id="cp-title" style="font-size: 0.8rem; color: var(--sys-blue); font-weight: 900; border-bottom: 1px solid var(--sys-blue); padding-bottom: 10px; margin-bottom: 15px; text-transform: uppercase;">AÇÃO DO SISTEMA</div>
         <div id="cp-msg" style="color: #fff; font-size: 0.9rem; margin-bottom: 15px; display: none;"></div>
         
@@ -295,8 +297,7 @@
     </div>
 
     <script>
-        // --- CHAVE NOVA PARA INÍCIO ZERADO ---
-        let db = JSON.parse(localStorage.getItem('sv_app_oficial_v1')) || {
+        let db = JSON.parse(localStorage.getItem('sv_app_speed_v2')) || {
             lvl: 1, xp: 0, streak: 1, last: '', voice: true,
             trans: [], items: [], shadows: [],
             boss: { nome: 'PRIMEIRA DÍVIDA', total: 1000 },
@@ -305,26 +306,32 @@
 
         if(db.profile.theme === 'pro') document.body.classList.add('theme-pro');
 
-        function save() { localStorage.setItem('sv_app_oficial_v1', JSON.stringify(db)); }
+        function save() { localStorage.setItem('sv_app_speed_v2', JSON.stringify(db)); }
         window.addEventListener('beforeunload', save);
         document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') save(); });
 
-        // --- SISTEMA DE TECLADO ---
+        // --- SOLUÇÃO DE ENGENHARIA PARA O TECLADO MOBILE ---
         function tecladoAtivo() {
+            // Esconde a barra de navegação para evitar cliques fantasmas e liberar espaço
             document.getElementById('nav-menu').style.display = 'none';
-            document.getElementById('input-box').classList.add('keyboard-open');
+            // Zera a margem para o input colar no topo do teclado perfeitamente
+            document.getElementById('input-box').style.marginBottom = '15px';
+            
+            // Força a tela a mostrar a última mensagem enviada ou o input
             setTimeout(() => {
                 const c = document.getElementById('chat-ui');
                 c.scrollTop = c.scrollHeight;
-            }, 100);
+                document.getElementById('input-ui').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 150);
         }
 
         function tecladoInativo() {
+            // Quando o teclado desce, a barra de navegação volta ao normal
             document.getElementById('nav-menu').style.display = 'flex';
-            document.getElementById('input-box').classList.remove('keyboard-open');
+            document.getElementById('input-box').style.marginBottom = '100px';
         }
 
-        // --- SISTEMA DE MODAL CUSTOMIZADO ---
+        // --- SISTEMA DE MODAIS ---
         let promptCallback = null;
         
         function openPrompt(title, placeholders, callback, isConfirm = false, msg = "") {
@@ -368,12 +375,33 @@
             promptCallback = null;
         }
 
-        // --- FUNÇÕES DE QG ---
-        function configPerfil() { openPrompt("ALTERAR IDENTIDADE", ["Novo Nome Hunter:"], (res) => { if(res[0]) { db.profile.name = res[0].toUpperCase(); atualizarTudo(); } }); }
-        function configBoss() { openPrompt("NOVO ALVO (BOSS)", ["Nome da Dívida/Meta:", "Valor Total (R$):"], (res) => { let v = parseFloat(res[1].replace(',','.')); if(res[0] && !isNaN(v)) { db.boss = {nome: res[0].toUpperCase(), total: v}; atualizarTudo(); } }); }
-        function addItem() { openPrompt("REGISTRAR ARTEFATO", ["Nome do Bem/Patrimônio:", "Valor (R$):"], (res) => { let v = parseFloat(res[1].replace(',','.')); if(res[0] && !isNaN(v)) { db.items.push({nome: res[0], val: v}); atualizarTudo(); } }); }
-        function addShadow() { openPrompt("REGISTRAR SOMBRA", ["Gasto Fixo (Ex: Aluguel):", "Valor (R$):"], (res) => { let v = parseFloat(res[1].replace(',','.')); if(res[0] && !isNaN(v)) { db.shadows.push({nome: res[0], val: v}); atualizarTudo(); } }); }
-        
+        function configPerfil() {
+            openPrompt("ALTERAR IDENTIDADE", ["Novo Nome Hunter:"], (res) => {
+                if(res[0]) { db.profile.name = res[0].toUpperCase(); atualizarTudo(); }
+            });
+        }
+
+        function configBoss() {
+            openPrompt("NOVO ALVO (BOSS)", ["Nome da Dívida/Meta:", "Valor Total (R$):"], (res) => {
+                let v = parseFloat(res[1].replace(',','.'));
+                if(res[0] && !isNaN(v)) { db.boss = {nome: res[0].toUpperCase(), total: v}; atualizarTudo(); }
+            });
+        }
+
+        function addItem() {
+            openPrompt("REGISTRAR ARTEFATO", ["Nome do Bem/Patrimônio:", "Valor (R$):"], (res) => {
+                let v = parseFloat(res[1].replace(',','.'));
+                if(res[0] && !isNaN(v)) { db.items.push({nome: res[0], val: v}); atualizarTudo(); }
+            });
+        }
+
+        function addShadow() {
+            openPrompt("REGISTRAR SOMBRA", ["Gasto Fixo (Ex: Aluguel):", "Valor (R$):"], (res) => {
+                let v = parseFloat(res[1].replace(',','.'));
+                if(res[0] && !isNaN(v)) { db.shadows.push({nome: res[0], val: v}); atualizarTudo(); }
+            });
+        }
+
         function restaurarBackupLocal() {
             openPrompt("RESTAURAR SISTEMA", ["Cole o Código de Backup Aqui:"], (res) => {
                 if (res[0]) {
@@ -381,7 +409,7 @@
                         const parsed = JSON.parse(decodeURIComponent(atob(res[0])));
                         if(parsed && parsed.lvl) {
                             db = parsed; save();
-                            alertCustom("SUCESSO", "Sistema restaurado.");
+                            alertCustom("SUCESSO", "Sistema restaurado. A página será recarregada.");
                             setTimeout(()=>location.reload(), 1500);
                         } else alertCustom("ERRO", "Código inválido ou incompatível.");
                     } catch(e) { alertCustom("ERRO CRÍTICO", "O código fornecido está corrompido."); }
@@ -422,11 +450,14 @@
 
         function closeModal() { document.getElementById('sys-modal').style.display = 'none'; }
 
-        // --- SISTEMAS DE MULTIMÍDIA E COMPONENTES ---
+        // --- SISTEMAS INTERNOS (AUDIO, FOTO, VOZ) ---
         function wakeAudio() { document.querySelectorAll('audio').forEach(a => { a.play().then(() => a.pause()).catch(()=>{}); }); }
         function tocarSom(id) {
             let audio = document.getElementById(id);
-            if(audio) { audio.currentTime = 0; audio.play().catch(e => console.warn("Áudio requer interação inicial.", e)); }
+            if(audio) { 
+                audio.currentTime = 0; 
+                audio.play().catch(e => console.warn("Áudio requer interação inicial.", e)); 
+            }
         }
 
         function handlePhotoUpload(event) {
@@ -475,7 +506,6 @@
         function delI(i) { db.items.splice(i,1); atualizarTudo(); }
         function delS(i) { db.shadows.splice(i,1); atualizarTudo(); }
 
-        // --- SNAKE DUNGEON ENGINE ---
         const canvas = document.getElementById('snake-canvas');
         const ctx = canvas.getContext('2d');
         const box = 20;
@@ -551,7 +581,6 @@
             document.getElementById('start-btn').style.display = 'block'; atualizarTudo();
         }
 
-        // --- SISTEMA CORE ---
         function atualizarTudo() {
             let tin = 0; let tout = 0; let bossHits = 0;
             let historyHTML = '';
@@ -651,7 +680,6 @@
             
             calcVal = ""; addMsg(resp, 'bot'); falar(resp); 
             atualizarTudo(); 
-            setTimeout(() => { const c = document.getElementById('chat-ui'); c.scrollTop = c.scrollHeight; }, 100);
         }
 
         function showCond(id) {
@@ -675,28 +703,11 @@
         function addMsg(t, s) { const c = document.getElementById('chat-ui'); const d = document.createElement('div'); d.className = `msg ${s}`; d.innerText = t; c.appendChild(d); c.scrollTop = c.scrollHeight; }
         function navegar(id, btn) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active')); document.getElementById(id).classList.add('active'); if(btn) btn.classList.add('active'); if(id==='chat' && document.getElementById('chat-ui').children.length===0) { const m = `[O ARQUITETO] O Sistema aguarda, ${db.profile.name}.`; addMsg(m,'bot'); falar(m); } }
         
-        // --- MOTOR DE VOZ (COM PERMISSÃO FORÇADA) ---
         function ouvirVoz() { 
             if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
-                alertCustom("FALHA DE COMUNICAÇÃO", "O motor de voz não é suportado neste formato. Abra no Google Chrome e clique em 'Adicionar à Tela Inicial'.");
+                alertCustom("FALHA DE COMUNICAÇÃO", "O motor de voz não funciona nativamente em APKs simples. Use via Navegador Google Chrome para utilizar o microfone.");
                 return;
             }
-
-            if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ audio: true })
-                    .then(function(stream) {
-                        stream.getTracks().forEach(track => track.stop());
-                        iniciarReconhecimento();
-                    })
-                    .catch(function(err) {
-                        alertCustom("ACESSO NEGADO", "O Sistema precisa da sua permissão de Microfone. Autorize nas configurações.");
-                    });
-            } else {
-                iniciarReconhecimento(); // Fallback para navegadores que não exigem pré-check
-            }
-        }
-
-        function iniciarReconhecimento() {
             try {
                 const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)(); 
                 rec.lang = 'pt-BR'; 
@@ -719,9 +730,9 @@
                 rec.onerror = (e) => {
                     closeModal();
                     if (e.error === 'not-allowed') {
-                        alertCustom("PERMISSÃO REVOGADA", "O microfone foi bloqueado durante o uso.");
+                        alertCustom("PERMISSÃO NEGADA", "O Android bloqueou o microfone deste app. Permita nas configurações do celular ou abra direto no Chrome.");
                     } else {
-                        alertCustom("FALHA NA ESCUTA", `Erro no motor de voz (${e.error}). Tente novamente.`);
+                        alertCustom("BLOQUEIO DO SISTEMA", `Erro no motor de voz (${e.error}).`);
                     }
                 };
                 rec.start(); 
